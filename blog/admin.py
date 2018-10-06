@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Blog, BlogAuthor, BlogComment, Tag
+
+
+
+admin.site.register(Blog)
+admin.site.register(BlogAuthor)
+admin.site.register(BlogComment)
+admin.site.register(Tag)

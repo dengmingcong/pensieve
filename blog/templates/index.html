@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>Blog Home</h1>  <p>Welcome to <em>Pensieve</em>, a simple site for blog posting.</p>
+<h2>Dynamic content</h2>
+  <p>The site has the following record counts:</p>
+  <ul>
+    <li><strong>Blogs:</strong> {{ blog_num }}</li>
+    <li><strong>Blog Authors:</strong> {{ blog_author_num }}</li>
+  </ul>
+{% endblock %}
