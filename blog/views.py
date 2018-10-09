@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import generic
+from django.views.generic.base import TemplateView
 
 from .models import Blog, BlogAuthor
 
@@ -54,3 +55,20 @@ class BlogAuthorDetailView(generic.DetailView):
     """
 
     model = BlogAuthor
+
+
+class AboutThisBlogView(TemplateView):
+    """
+    Template view for the template of blog website introduction.
+    """
+
+    template_name = 'about_this_blog.html'
+
+
+
+class AboutMeView(TemplateView):
+    """
+    Template view for the template of self-introduction.
+    """
+
+    template_name = 'about_me.html'

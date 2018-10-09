@@ -16,13 +16,16 @@
           <ul class="sidebar-nav">
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="{% url 'blogs' %}">All Blogs</a></li>
-            <li><a href="{% url 'blog-authors' %}">All Authors</a></li>
+            <li><a href="{% url 'about-this-blog' %}">About this blog</a></li>
+            <li><a href="{% url 'about-me' %}">About me</a></li>
+            <!-- No need to check if user is logged in or not now.
             {% if user.is_authenticated %}
             <li>User: {{ user.get_username }}</li>
             <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
             {% else %}
             <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a>
             {% endif %}
+            -->
           </ul>
           {% endblock %}
         </div>
