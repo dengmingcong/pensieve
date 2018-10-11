@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from datetime import date
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.views.generic.base import TemplateView
 
@@ -38,7 +39,12 @@ class BlogDetailView(generic.DetailView):
     Class-based view for one particular blog.
     """
 
-    model = Blog
+    # model = Blog
+    context_object_name = "blog"
+
+    def get_queryset(self):
+        self.post_date = date(self.kwargs['year'], self.kwargs['month'], self.kwargs['day'])
+        return Blog.objects.filter(post_date=self.post_date, slug=self.kwargs['slug'])
 
 
 class BlogAuthorListView(generic.ListView):
