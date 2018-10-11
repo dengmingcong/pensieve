@@ -49,6 +49,7 @@ class Blog(models.Model):
     post_date = models.DateField(default=date.today)
     tags = models.ManyToManyField(Tag)
     title = models.CharField(max_length=50, help_text="Title of this blog.")
+    slug = models.CharField(max_length=50, unique_for_date="post_date", help_text="Short for title, used as the URL slug.")
     content = models.TextField()
 
     def __str__(self):
@@ -61,7 +62,15 @@ class Blog(models.Model):
         """
         Return the url to access a particular blog instance.
         """
-        return reverse('blog-detail', args=[str(self.id)])
+        return reverse(
+            'blog-detail', 
+            kwargs={
+                'year': self.post_date.year,
+                'month': self.post_date.month,
+                'day': self.post_date.day,
+                'slug': self.slug
+            }
+        )
 
 
 class BlogComment(models.Model):
