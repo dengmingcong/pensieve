@@ -1,10 +1,18 @@
 {% extends "base_generic.html" %}
+
 {% block content %}
-<h1>Blog Home</h1>  <p>Welcome to <em>Pensieve</em>, a simple site for blog posting.</p>
-<h2>Dynamic content</h2>
-  <p>The site has the following record counts:</p>
-  <ul>
-    <li><strong>Blogs:</strong> {{ blog_num }}</li>
-    <li><strong>Blog Authors:</strong> {{ blog_author_num }}</li>
-  </ul>
-{% endblock %}
+  {% if blog_list %}
+    {% for blog in blog_list %}
+    <h1><a href="{{ blog.get_absolute_url }}"><strong>{{ blog.title }}</strong></a></h1>
+    <hr>
+    <p>{{ blog.post_date }}</p>
+    <p>{{ blog.blogcomment_set.all.count }} comments</p>
+    <p>{{ blog.content }}</p>
+    {% for tag in blog.tags.all %}
+    <p><a href="">{{ tag.tag }}</a></p>
+    {% endfor %}
+    {% endfor %}
+  {% else %}
+    <p>There are no blogs in this site.</p>
+  {% endif %}
+{% endblock%}

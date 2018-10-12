@@ -6,22 +6,15 @@ from django.views.generic.base import TemplateView
 from .models import Blog, BlogAuthor, BlogComment
 
 
-def index(request):
+class Index(generic.ListView):
     """
-    View function for home page of site.
-    """
-    
-    blog_num = Blog.objects.all().count()
-    blog_author_num = BlogAuthor.objects.all().count()
+    Class-based view for home.
 
-    return render(
-        request,
-        'index.html',
-        context={
-            'blog_num': blog_num,
-            'blog_author_num': blog_author_num
-        }
-    )
+    Get all blogs and display the contents, comments detail won't be displayed.
+    """
+
+    model = Blog
+    template_name = 'index.html'
 
 
 class BlogListView(generic.ListView):
@@ -45,6 +38,12 @@ class BlogDetailView(generic.DetailView):
         return Blog.objects.filter(post_date=post_date, slug=self.kwargs['slug'])
 
     def get_context_data(self, **kwargs):
+        """
+        Add extra data ('comment number') to context.
+
+        BETTER WAY:
+            In template, use 'blog.blogcomment_set.all.count' to get the count.
+        """
         context = super().get_context_data(**kwargs)
         post_date = date(self.kwargs['year'], self.kwargs['month'], self.kwargs['day'])
         blog = get_object_or_404(Blog, post_date=post_date, slug=self.kwargs['slug'])
