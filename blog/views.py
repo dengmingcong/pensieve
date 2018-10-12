@@ -3,8 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.views.generic.base import TemplateView
 
-from .models import Blog, BlogAuthor
-
+from .models import Blog, BlogAuthor, BlogComment
 
 
 def index(request):
@@ -39,12 +38,19 @@ class BlogDetailView(generic.DetailView):
     Class-based view for one particular blog.
     """
 
-    # model = Blog
     context_object_name = "blog"
 
     def get_queryset(self):
-        self.post_date = date(self.kwargs['year'], self.kwargs['month'], self.kwargs['day'])
-        return Blog.objects.filter(post_date=self.post_date, slug=self.kwargs['slug'])
+        post_date = date(self.kwargs['year'], self.kwargs['month'], self.kwargs['day'])
+        return Blog.objects.filter(post_date=post_date, slug=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post_date = date(self.kwargs['year'], self.kwargs['month'], self.kwargs['day'])
+        blog = get_object_or_404(Blog, post_date=post_date, slug=self.kwargs['slug'])
+        comment_number = BlogComment.objects.filter(blog=blog).count()
+        context['comment_number'] = comment_number
+        return context
 
 
 class BlogAuthorListView(generic.ListView):

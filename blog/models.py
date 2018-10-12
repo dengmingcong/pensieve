@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
+
 class Tag(models.Model):
     """
     Model representing a tag.
@@ -51,6 +52,9 @@ class Blog(models.Model):
     title = models.CharField(max_length=50, help_text="Title of this blog.")
     slug = models.CharField(max_length=50, unique_for_date="post_date", help_text="Short for title, used as the URL slug.")
     content = models.TextField()
+
+    class Meta:
+        ordering = ['-post_date']
 
     def __str__(self):
         """
