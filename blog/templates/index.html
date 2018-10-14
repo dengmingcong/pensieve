@@ -5,11 +5,11 @@
     {% for blog in blog_list %}
     <h1><a href="{{ blog.get_absolute_url }}"><strong>{{ blog.title }}</strong></a></h1>
     <hr>
-    <p>{{ blog.post_date }}</p>
+    <p>{{ blog.post_date|date:"Y.m.d" }}</p>
     <p>{{ blog.blogcomment_set.all.count }} comments</p>
     <p>{{ blog.content }}</p>
     {% for tag in blog.tags.all %}
-    <p><a href="">{{ tag.tag }}</a></p>
+    <p><a href="{% url 'archived-by-tag' tag %}">{{ tag.tag }}</a></p>
     {% endfor %}
     {% endfor %}
   {% else %}
