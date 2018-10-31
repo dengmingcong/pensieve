@@ -1,23 +1,20 @@
 {% extends "base_generic.html" %}
+
 {% block content %}
   <h1>{{ blog.title  }}</h1>
-  <p>{{ blog.post_date|date:"Y.m.d" }}</p>
-  <p>{{ comment_number }} comments</p>
-  <!-- No need to display author, as author is always myself.
-  <p><strong>Author: </strong><a href="{{ blog.blog_author.get_absolute_url }}">{{ blog.blog_author }}</a></p>
-  -->
-  <p>{{ blog.content }}</p>
+
+  <p>{{ blog.post_date|date:"Y.m.d" }}
+  <p>{{ comment_number }} comments
+  <p>{{ blog.content }}
   {% for tag in blog.tags.all %}
-  <p><a href="">{{ tag.tag }}</a></p>
+  <p><a href="">{{ tag.tag }}</a>
   {% endfor %}
-  <div style="margin-left: 20px;margin-top: 20px">
-    <h4>Commnets</h4>
-    {% if blog.blogcomment_set.all %}
-      {% for comment in blog.blogcomment_set.all %}
-        <p>{{ comment.comment_author }} ({{ comment.post_date }}) - {{ comment.content }}</p>
-      {% endfor %}
-    {% else %}
-      <p>No comments.</p>
-    {% endif %}
-  </div>
+  <h2>Commnets</h2>
+  {% if blog.blogcomment_set.all %}
+    {% for comment in blog.blogcomment_set.all %}
+      <p>{{ comment.comment_author }} ({{ comment.post_date }}) - {{ comment.content }}</p>
+    {% endfor %}
+  {% else %}
+    <p>No comments.</p>
+  {% endif %}
 {% endblock %}

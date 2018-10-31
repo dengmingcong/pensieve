@@ -2,9 +2,10 @@
 
 {% block content %}
   <h1>Blogs with tag "{{ tag }}"</h1>
+
   <ul>
-  {% for blog in blog_list %}
-    <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})</li>
-  {% endfor %}
+    {% for blog in blog_list %}
+    <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})
+    {% endfor %}
   </ul>
 {% endblock %}

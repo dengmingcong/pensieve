@@ -2,20 +2,21 @@
 
 {% block content %}
   {% for year, blog_list in object_dict_sorted_by_year.items %}
-  <p>{{ year }}</p>
+  <p>{{ year }}
     <ul>
-    {% for blog in blog_list %}
-    <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})</li>
-    {% endfor %}
+      {% for blog in blog_list %}
+      <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})
+      {% endfor %}
     </ul>
+
   {% endfor %}
 
   {% for tag, blog_list in object_dict_sorted_by_tag.items %}
-  <p>{{ tag }}</p>
+  <p>{{ tag }}
     <ul>
-    {% for blog in blog_list %}
-    <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})</li>
-    {% endfor %}
+      {% for blog in blog_list %}
+      <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})
+      {% endfor %}
     </ul>
   {% endfor %}
 {% endblock %}

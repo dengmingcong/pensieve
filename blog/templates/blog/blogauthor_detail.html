@@ -2,14 +2,15 @@
 
 {% block content %}            
   <h1>Blog Author: {{ blogauthor.user.username }}</h1>
+  
   <h2>Bio</h2>
   <p>{{ blogauthor.biography }}</p>     
   {% if blogauthor.blog_set.all %}
-    <h2>Blog List</h2>        
+  <h2>Blog List</h2>        
     <ul>
-    {% for blog in blogauthor.blog_set.all %}
-      <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }} </a>({{ blog.post_date }})</li> 
-    {% endfor %}
+      {% for blog in blogauthor.blog_set.all %}
+      <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }} </a>({{ blog.post_date }}) 
+      {% endfor %}
     </ul>
   {% endif %}
 {% endblock %}
