@@ -1,21 +1,27 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  {% for year, blog_list in object_dict_sorted_by_year.items %}
-  <p>{{ year }}</p>
-    <ul>
-    {% for blog in blog_list %}
-    <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})</li>
+<div id="archive-container">
+  <section id="blog-list-year">
+    {% for year, blog_list in object_dict_sorted_by_year.items %}
+      <p class="archive-title">{{ year }}
+      <ul class="archive-list">
+        {% for blog in blog_list %}
+          <li><a class="theme-text-color blog-title" href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})
+        {% endfor %}
+      </ul>
     {% endfor %}
-    </ul>
-  {% endfor %}
+  </section>
 
-  {% for tag, blog_list in object_dict_sorted_by_tag.items %}
-  <p>{{ tag }}</p>
-    <ul>
-    {% for blog in blog_list %}
-    <li><a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})</li>
+  <section id="blog-list-tag">
+    {% for tag, blog_list in object_dict_sorted_by_tag.items %}
+      <p class="archive-title">{{ tag }}
+      <ul class="archive-list">
+        {% for blog in blog_list %}
+          <li><a class="theme-text-color blog-title" href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})
+        {% endfor %}
+      </ul>
     {% endfor %}
-    </ul>
-  {% endfor %}
+  </section>
+</div>
 {% endblock %}

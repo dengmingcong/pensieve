@@ -1,6 +1,8 @@
-*.py[cod]
-*.so
+build
+dist
 *.egg
 *.egg-info
-dist
-build
+*.log
+*.py[cod]
+*.so
+*.swp

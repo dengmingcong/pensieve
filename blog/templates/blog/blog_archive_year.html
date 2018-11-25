@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div id="archive-year-container">
+  <p class="archive-title">{{ year|date:"Y" }}</p>
+  <ul class="archive-list">
+    {% for blog in object_list %}
+      <li><a class="theme-text-color blog-title" href="{{ blog.get_absolute_url }}">{{ blog.title }}</a> ({{ blog.post_date|date:"Y.m.d"}})
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
