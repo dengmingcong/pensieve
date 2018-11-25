@@ -1,14 +1,27 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
+<article>
   <h1>{{ blog.title  }}</h1>
 
-  <p>{{ blog.post_date|date:"Y.m.d" }}
-  <p>{{ comment_number }} comments
-  <p>{{ blog.content }}
-  {% for tag in blog.tags.all %}
-  <p><a href="">{{ tag.tag }}</a>
-  {% endfor %}
+  <div class="info">
+    <span class="date">{{ blog.post_date|date:"Y.m.d" }}</span>
+    <span class="comments">{{ comment_number }} comments</span>
+  </div>
+
+  <section>
+  {{ blog.content }}
+  </section>
+
+  <div class="tags">
+    {% for tag in blog.tags.all %}
+    <a href="{% url 'blog-tag-archive' tag %}">{{ tag.tag }}</a>
+    {% endfor %}
+  </div>
+</article>
+
+<aside>
+  <!--
   <h2>Commnets</h2>
   {% if blog.blogcomment_set.all %}
     {% for comment in blog.blogcomment_set.all %}
@@ -17,4 +30,6 @@
   {% else %}
     <p>No comments.</p>
   {% endif %}
+  -->
+</aside>
 {% endblock %}

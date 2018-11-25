@@ -8,13 +8,15 @@ from django.views.generic.dates import ArchiveIndexView
 from .models import Blog, BlogAuthor, BlogComment, Tag
 
 
-class Index(generic.ListView):
+class Index(ArchiveIndexView):
     """
     Class-based view for home.
 
-    Get all blogs and display the contents, comments detail won't be displayed.
+    Get all blogs ordered by date in descending order.
+    In the template, comments detail won't be displayed.
     """
 
+    date_field = "post_date"
     model = Blog
     template_name = 'index.html'
 
@@ -24,12 +26,12 @@ class BlogArchiveView(ArchiveIndexView):
     Archive blogs by dates and tag.
     """
 
-    model = Blog
     date_field = "post_date"
+    model = Blog
 
     def get_context_data(self, **kwargs):
         """
-        Add data grouped by date and tag to context.
+        Extends context by adding data grouped by date and tag to context.
         """
         context = super().get_context_data(**kwargs)
         object_dict_sorted_by_year = {}
@@ -42,7 +44,6 @@ class BlogArchiveView(ArchiveIndexView):
         object_dict_sorted_by_tag = {}
         for tag in Tag.objects.all():
             related_objects = tag.blog_set.all()
-            # related_objects = Blog.objects.filter(tags=tag)
             if related_objects:
                 object_dict_sorted_by_tag[tag.tag] = related_objects
         ordered_object_dict_sorted_by_tag = collections.OrderedDict(sorted(object_dict_sorted_by_tag.items()))
@@ -51,15 +52,15 @@ class BlogArchiveView(ArchiveIndexView):
         return context
 
 
-class BlogArchivedByTagView(generic.ListView):
+class TagArchiveView(generic.ListView):
     """
     Archive by tag.
 
-    The URL should be 'archive/<str:tag>/'.
+    The URL should be 'category/<str:tag>/'.
     """
 
     model = Blog
-    template_name = "blog/blog_archive_by_tag.html"
+    template_name = "blog/blog_archive_tag.html"
 
     def get_queryset(self):
         tag = get_object_or_404(Tag, tag=self.kwargs['tag'])

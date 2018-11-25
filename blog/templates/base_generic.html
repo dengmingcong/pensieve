@@ -7,25 +7,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+    <script src="{% static 'blog/javascript/nav.js' %}"></script>
   </head>
   
   <body>
-    <nav>
+    <header class="theme-background">
+      <p id="site-name"><a class="theme-text-color header" href="{% url 'index' %}">Pensieve</a></p>
+      <p id="slogan" class="theme-text-color header">Light made liquid / wind made solid</p>
+    </header>
+    
+    <nav class="main-nav">
       <ul>
-        <li><a href="{% url 'index' %}">Home</a>
+        <li><a href="{% url 'index' %}" class="active">Home</a>
         <li><a href="{% url 'archive' %}">Archive</a>
         <li><a href="{% url 'about-this-blog' %}">About this blog</a>
         <li><a href="{% url 'about-me' %}">About me</a>
       </ul>
+      <form action="">
+        <label for="search"></label>
+        <input id="search">
+      </form>
     </nav>
     
     <main>
-    {% block content %}{% endblock %}
+      <section id="main-content">
+        {% block content %}{% endblock %}
+      </section>
+
+      <section id="sidebar">
+        {% load sidebar %}
+        {% sidebar_context as context %}
+        <div class="category">
+          <p>Category</p>
+          <ul>
+            {% for category in context.tag_list %}
+            <li><a class="theme-text-color archive" href="{% url 'blog-tag-archive' category.tag %}">{{ category.tag }}</a> 
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="date">
+          <p>Date</p>
+          <ul>
+            {% for date in context.date_list %}
+            <li><a class="theme-text-color archive" href="{% url 'blog-year-archive' date.year %}">{{ date|date:"Y" }}</a>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
     </main>
-  
-    <footer>
-      <p>Powered by Django. @Copyright JL.
-    </footer>
 
     {% block pagination %}
       {% if is_paginated %}
@@ -44,3 +73,7 @@
         </div>
       {% endif %}
     {% endblock %}
+
+    <footer class="theme-background theme-text-color footer">
+      Powered by Django. @Copyright JL.
+    </footer>

@@ -82,8 +82,7 @@ class BlogComment(models.Model):
     Model representing a comment against a blog post.
     """
 
-    comment_author = models.ForeignKey(User, on_delete=models.SET_NULL,
-            null=True)
+    comment_author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post_date = models.DateTimeField(auto_now_add=True)
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
     content = models.TextField(max_length=500)

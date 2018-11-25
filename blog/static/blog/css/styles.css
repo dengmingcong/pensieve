@@ -1,5 +1,270 @@
-.sidebar-nav {
-    margin-top: 20px;
-    padding: 0;
-    list-style: none;
+/* Global */
+
+html {
+  background: linear-gradient(to bottom, #65696c, #bfc3c6) fixed;
+  height: 100%;
+}
+
+body {
+  background: white;
+  box-shadow: 0px 0px 20px 2px #676a6d,
+              0px 0px 90px 10px #EBE8F2;
+  display: flex;
+  flex-flow: column;
+  font-family: Verdana,"BitStream vera Sans",Tahoma,Helvetica,Sans-serif;
+  margin: 30px auto;
+  max-width: 936px;
+  min-height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+body::after {
+  content: '';
+  display: block;
+  height: 3em;
+}
+
+/* Global > theme */
+
+.theme-background {
+  background: #6176b7;
+}
+
+.theme-text-color.header,
+.theme-text-color.footer {
+  color: white;
+}
+
+.theme-text-color.archive {
+  color: #6176b7;
+  text-decoration: none;
+}
+
+.theme-text-color.archive:hover {
+  text-decoration: underline solid #6176b7;  
+}
+
+.theme-text-color.blog-title {
+  color: black;
+  outline: none;
+  text-decoration: none;
+} 
+
+.theme-text-color.blog-title:focus,
+.theme-text-color.blog-title:hover {
+  color: #ff9100;
+}
+
+
+/* Header */
+
+header {
+  border-bottom: 1px solid #A6A6A6;
+  height: 90px;
+}
+
+#site-name {
+  font: 2.6em Impact;
+  margin: 0;
+}
+
+#site-name a {
+  display: block;
+  padding: 10px 30px 0;
+  text-decoration: none;  
+}
+
+#slogan {
+  font: 1em Cochin;
+  margin: 0;
+  padding: 0 30px;
+  text-decoration: overline;
+}
+
+
+/* Main Navigation */
+
+.main-nav {
+  box-shadow: 1px 0px 12px #76797c;
+  position: relative;
+}
+
+.main-nav ul {
+  align-items: left;
+  display: flex; 
+  height: 2.1em;
+  justify-content: left;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav li {
+  flex: initial;
+  height: 100%;
+  text-align: center;
+}
+
+.main-nav li a {
+  color: black;
+  display: block;
+  line-height: 2.1em;
+  padding: 0 30px;
+}
+
+.main-nav li a:not(.active):hover {
+  background: #f4f5f7;
+}
+
+.main-nav .active {
+  background: #e0e0e2;
+}
+
+.main-nav li:last-child {
+  margin-right: 0;
+}
+
+.main-nav li a {
+  text-decoration: none;
+}
+
+.main-nav form {
+  top: 5px;
+  position: absolute;
+  right: 30px;
+}
+
+
+/* Main */
+main {
+  display: flex;
+  flex: auto;
+  font-size: 13px;
+}
+
+/* Main > content */
+
+#main-content {
+  flex: 2.4;
+  padding: 40px 30px;
+}
+
+/* Main > content > article */
+
+article {
+  margin: 0 0 40px;
+}
+
+/* Main > content > article > h1 */
+
+article h1 {
+  margin: 0;
+  border-bottom: 1px solid #ccc;
+}
+
+
+
+/* Main > content > article > info */
+
+article .info {
+  display: flex;
+  padding-top: 0.5em;
+} 
+
+article .info .date {
+  background: url(/static/blog/image/icons/calendar.png) left center/1em no-repeat;
+  flex: auto;
+  padding-left: 1.2em;
+}
+
+article .info .comments {
+  background: url(/static/blog/image/icons/dialog.png) left center/1em no-repeat;
+  flex: initial;
+  padding-left: 1.8em;
+}
+
+/* Main > content > article > section (blog content) */
+
+article section {
+  padding: 1em 0;
+}
+
+/* Main > content > article > tags */
+
+article .tags {
+  background: url(/static/blog/image/icons/category.png) left center/1em no-repeat;
+  padding-left: 1.4em;
+}
+
+article .tags a:nth-last-child(n+2):after {
+  content: ', ';
+  display: inline-block;
+  pointer-events: none;
+}
+
+article .tags a {
+  font-size: .9em;
+  text-decoration: none;
+}
+
+/* Main > content > archive-container|archive-year-container|archive-tag-container > ul */
+
+.archive-title {
+  font-weight: bold;
+}
+
+.archive-list {
+  margin: 0 0 40px;
+  padding: 0;
+}
+
+.archive-list li {
+  list-style: inside url(/static/blog/image/icons/marker.png);
+}
+
+.archive-list li a {
+  padding-left: 5px;
+  font-size: .9em;
+}
+
+/* Main > sidebar */
+
+#sidebar {
+  background: #F7F7F7;
+  border-left: solid 1px #ccc;
+  flex: 1;
+  padding: 40px 0 0 15px;
+}
+
+#sidebar p {
+  font-weight: bold;
+  margin-top: 0;
+}
+
+#sidebar ul {
+  margin: 0 0 40px;
+  padding: 0;
+}
+
+#sidebar li {
+  list-style: inside url(/static/blog/image/icons/marker.png);
+}
+
+#sidebar li a {
+  padding-left: 5px;
+  font-size: .9em;
+}
+
+
+/* Footer */
+
+footer {
+  color: yellow;
+  bottom: 0;
+  height: 3em;
+  line-height: 3em;
+  position: absolute;
+  text-align: center;
+  width: 100%;
 }
