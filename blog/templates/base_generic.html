@@ -18,10 +18,10 @@
     
     <nav class="main-nav">
       <ul>
-        <li><a href="{% url 'index' %}" class="active">Home</a>
-        <li><a href="{% url 'archive' %}">Archive</a>
-        <li><a href="{% url 'about-this-blog' %}">About this blog</a>
-        <li><a href="{% url 'about-me' %}">About me</a>
+        <li><a href="{% url 'index' %}" {% if request.path == "/blog/" %}class="active"{% endif %}>Home</a>
+        <li><a href="{% url 'archive' %}" {% if request.path == "/blog/archive/" %}class="active"{% endif %}>Archive</a>
+        <li><a href="{% url 'about-this-blog' %}" {% if request.path == "/blog/about-this-blog" %}class="active"{% endif %}>About this blog</a>
+        <li><a href="{% url 'about-me' %}" {% if request.path == "/blog/about-me" %}class="active"{% endif %}>About me</a>
       </ul>
       <form action="">
         <label for="search"></label>

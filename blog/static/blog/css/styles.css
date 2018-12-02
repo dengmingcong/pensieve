@@ -76,7 +76,7 @@ header {
 }
 
 #slogan {
-  font: 1em Cochin;
+  font: 1em InaiMathi,"Avenir next",Cochin;
   margin: 0;
   padding: 0 30px;
   text-decoration: overline;
@@ -109,7 +109,8 @@ header {
 .main-nav li a {
   color: black;
   display: block;
-  line-height: 2.1em;
+  font-size: 12px;
+  line-height: 2.1rem;
   padding: 0 30px;
 }
 

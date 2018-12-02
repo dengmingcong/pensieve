@@ -1,4 +1,4 @@
-var tabs = document.querySelectorAll('.main-nav li');
+var tabs = document.querySelectorAll('.main-nav li a');
 
 for(i = 0; i < tabs.length; i++) {
   var tab = tabs[i];
