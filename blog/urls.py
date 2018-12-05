@@ -23,3 +23,9 @@ urlpatterns = [
     # Page introducing myself
     path('about-me', views.AboutMeView.as_view(), name='about-me'),
 ]
+
+urlpatterns += [
+    path('add/', views.BlogCreate.as_view(), name='blog-add'), 
+    path('<int:year>/<int:month>/<int:day>/<slug:slug>/update/', views.BlogUpdate.as_view(), name='blog-update'),
+    path('<int:year>/<int:month>/<int:day>/<slug:slug>/delete/', views.BlogDelete.as_view(), name='blog-delete'),
+]
