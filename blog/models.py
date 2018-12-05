@@ -1,4 +1,5 @@
 from datetime import date
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -46,11 +47,11 @@ class Blog(models.Model):
     Model representing a blog.
     """
 
-    blog_author = models.ForeignKey(BlogAuthor, on_delete=models.PROTECT)
+    blog_author = models.ForeignKey(BlogAuthor, on_delete=models.PROTECT, default=1)
     post_date = models.DateField(default=date.today)
     tags = models.ManyToManyField(Tag)
-    title = models.CharField(max_length=50, help_text="Title of this blog.")
-    slug = models.CharField(max_length=50, unique_for_date="post_date", help_text="Short for title, used as the URL slug.")
+    title = models.CharField(max_length=50)
+    slug = models.CharField(max_length=50, unique_for_date="post_date")
     content = models.TextField()
 
     class Meta:

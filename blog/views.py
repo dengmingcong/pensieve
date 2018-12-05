@@ -1,10 +1,16 @@
 import collections
 from datetime import date
+
+from django import forms
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic.base import TemplateView
 from django.views.generic.dates import ArchiveIndexView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+from .forms import BlogModelForm
 from .models import Blog, BlogAuthor, BlogComment, Tag
 
 
@@ -16,6 +22,7 @@ class Index(ArchiveIndexView):
     In the template, comments detail won't be displayed.
     """
 
+    allow_empty = True
     date_field = "post_date"
     model = Blog
     template_name = 'index.html'
@@ -26,6 +33,7 @@ class BlogArchiveView(ArchiveIndexView):
     Archive blogs by dates and tag.
     """
 
+    allow_empty = True
     date_field = "post_date"
     model = Blog
 
@@ -100,6 +108,33 @@ class BlogDetailView(generic.DetailView):
         comment_number = BlogComment.objects.filter(blog=blog).count()
         context['comment_number'] = comment_number
         return context
+
+
+class BlogCreate(PermissionRequiredMixin, CreateView):
+    """
+    Generic class-based view for adding a new blog.
+    """
+    model = Blog
+    form_class = BlogModelForm
+    permission_required = 'blog.add_blog'
+
+
+class BlogUpdate(PermissionRequiredMixin, UpdateView):
+    """
+    Generic class-based view for updating a particular blog.
+    """
+    model = Blog
+    form_class = BlogModelForm
+    permission_required = 'blog.change_blog'
+
+
+class BlogDelete(PermissionRequiredMixin, DeleteView):
+    """
+    Generic class-based view for deleting a particular blog.
+    """
+    model = Blog
+    success_url = reverse_lazy("index")
+    permission_required = 'blog.delete_blog'
 
 
 class BlogAuthorListView(generic.ListView):

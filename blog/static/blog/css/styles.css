@@ -56,6 +56,16 @@ body::after {
   color: #ff9100;
 }
 
+.theme-text-color.form-action {
+  color: #6176b7;
+  text-decoration: none;
+}
+
+.theme-text-color.form-action:focus, 
+.theme-text-color.form-action:hover {
+  text-decoration: underline solid #6176b7;  
+}
+
 
 /* Header */
 
@@ -65,7 +75,7 @@ header {
 }
 
 #site-name {
-  font: 2.6em Impact;
+  font: bold 2.6em Cochin, Baskerville, Palatino, Luminari, GungSeo, Georgia, Serif;
   margin: 0;
 }
 
@@ -76,11 +86,12 @@ header {
 }
 
 #slogan {
-  font: 1em InaiMathi,"Avenir next",Cochin;
+  font: 1em Verdana, "Avenir next";
   margin: 0;
   padding: 0 30px;
   text-decoration: overline;
 }
+
 
 
 /* Main Navigation */
@@ -137,7 +148,9 @@ header {
 }
 
 
+
 /* Main */
+
 main {
   display: flex;
   flex: auto;
@@ -155,16 +168,24 @@ main {
 
 article {
   margin: 0 0 40px;
+  position: relative;
 }
 
 /* Main > content > article > h1 */
 
 article h1 {
-  margin: 0;
   border-bottom: 1px solid #ccc;
+  margin: 0;
 }
 
+/* Main > content > article > form */
 
+article .blog-form {
+  font-size: 12px;
+  position: absolute;
+  right: 0;
+  top: 5px;
+}
 
 /* Main > content > article > info */
 
@@ -256,6 +277,7 @@ article .tags a {
   padding-left: 5px;
   font-size: .9em;
 }
+
 
 
 /* Footer */
