@@ -1,4 +1,5 @@
 build
+db.sqlite3
 dist
 *.egg
 *.egg-info
