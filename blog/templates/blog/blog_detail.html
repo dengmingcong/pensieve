@@ -23,7 +23,8 @@
   </div>
 
   <section>
-  {{ blog.content|safe }}
+  {% load martortags %}
+  {{ blog.content|safe_markdown }}
   </section>
 
   <div class="tags">
