@@ -6,6 +6,15 @@
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
+    <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+    <link href="{% static 'plugins/css/semantic.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+    <link href="{% static 'plugins/css/resizable.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+    <link href="{% static 'martor/css/martor.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+    <style>
+      .main-container {margin-top: 7em}
+    </style>
+
+    <script type="text/javascript" src="{% static 'plugins/js/jquery.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
     <script src="{% static 'blog/javascript/nav.js' %}"></script>
   </head>
@@ -89,3 +98,15 @@
     <footer class="theme-background theme-text-color footer">
       Based on Django. NeoEase-like theme.
     </footer>
+
+    <script type="text/javascript" src="{% static 'plugins/js/ace.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/semantic.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/mode-markdown.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/ext-language_tools.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/theme-github.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/typo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/spellcheck.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/resizable.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'plugins/js/emojis.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'martor/js/martor.min.js' %}"></script>
