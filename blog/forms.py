@@ -8,6 +8,6 @@ class BlogModelForm(forms.ModelForm):
         model = Blog
         fields = ['title', 'slug', 'content', 'blog_author', 'post_date', 'tags']
 
-        widgets = {
-            'content': forms.Textarea(attrs={'cols': '120', 'rows': '40'}),
-        }
+        #widgets = {
+        #    'content': forms.Textarea(attrs={'cols': '120', 'rows': '40'}),
+        #}

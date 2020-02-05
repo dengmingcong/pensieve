@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
+from martor.models import MartorField
+
 
 class Tag(models.Model):
     """
@@ -52,7 +54,7 @@ class Blog(models.Model):
     tags = models.ManyToManyField(Tag)
     title = models.CharField(max_length=50)
     slug = models.CharField(max_length=50, unique_for_date="post_date")
-    content = models.TextField()
+    content = MartorField()
 
     class Meta:
         ordering = ['-post_date']
