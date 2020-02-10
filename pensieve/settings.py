@@ -182,7 +182,7 @@ MARTOR_MARKDOWN_EXTENSIONS = [
     'martor.extensions.urlize',
     'martor.extensions.del_ins',    # ~~strikethrough~~ and ++underscores++
     'martor.extensions.mention',    # to parse markdown mention
-    'martor.extensions.emoji',      # to parse markdown emoji
+    # 'martor.extensions.emoji',      # to parse markdown emoji
     'martor.extensions.mdx_video',  # to parse embed/iframe video
 ]
 
