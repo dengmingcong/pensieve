@@ -8,10 +8,17 @@ class HeadingToTreeConverter {
     this.levelAttributeName = 'data-heading-level';
   }
 
+  /**
+   * Generates a tree in a hierarchy of HTMLHeadingElement.
+   *
+   * 1. Creates DocumentFragment as root.
+   * 2. Creates an element as container for each HTMLHeadingElement.
+   * 3. Appends container of <h3> to container of <h2> as a child.
+   */
   convertHeadingToTree() {
     let fragment = document.createDocumentFragment();
-    let firstChild = this.walker.firstChild()
-    let currentNode = firstChild.cloneNode(true);
+    let firstChild = this.walker.firstChild();
+    let currentNode = (firstChild === null) ? null : firstChild.cloneNode(true);
     let currentContainerElement = fragment;
     let parentContainerElement = null;
     let currentHeadingLevel = '';
@@ -28,9 +35,10 @@ class HeadingToTreeConverter {
       }
 
       node = this.walker.nextSibling();
-      currentNode = node.cloneNode(true);
+      currentNode = (node === null) ? null : node.cloneNode(true);
     }
 
+    this.root.innerHTML = '';
     this.root.appendChild(fragment);
   }
 
@@ -58,7 +66,7 @@ class HeadingToTreeConverter {
           parentContainerElement = currentContainerElement;
           break;
         case 0:
-          parentContainerElement = currentContainerElement.parentNode();
+          parentContainerElement = currentContainerElement.parentNode;
           break;
         case -1:
           parentContainerElement = this.locateParentContainerElement(root, currentContainerElement.parentNode, headingElement);
@@ -94,7 +102,7 @@ class HeadingToTreeConverter {
    * @returns {*|boolean}
    */
   isHeadingElement(node) {
-    return node instanceof HTMLHeadElement;
+    return node instanceof HTMLHeadingElement;
   }
 
   /**
