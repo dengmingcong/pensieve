@@ -206,9 +206,9 @@ article .info .comments {
   padding-left: 1.8em;
 }
 
-/* Main > content > article > section (blog content) */
+/* Main > content > article > div (blog content) */
 
-article section {
+article div {
   padding: 1em 0;
 }
 

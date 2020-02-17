@@ -23,10 +23,10 @@
         <span class="comments">{{ blog.blogcomment_set.all.count }} comments</span>
       </div>
   
-      <section>
+      <div>
       {% load martortags %}
       {{ blog.content|safe_markdown }}
-      </section>
+      </div>
 
       <div class="tags">
         {% for tag in blog.tags.all %}

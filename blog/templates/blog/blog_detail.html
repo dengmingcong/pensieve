@@ -22,10 +22,10 @@
     <span class="comments">{{ comment_number }} comments</span>
   </div>
 
-  <section>
+  <div>
   {% load martortags %}
   {{ blog.content|safe_markdown }}
-  </section>
+  </div>
 
   <div class="tags">
     {% for tag in blog.tags.all %}

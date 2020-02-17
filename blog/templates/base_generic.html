@@ -39,12 +39,12 @@
     </nav>
     
     <main>
-      <section id="main-content">
+      <div id="main-content">
         {% block content %}{% endblock %}
-      </section>
+      </div>
 
       {% block sidebar %}
-        <section id="sidebar">
+        <div id="sidebar">
           {% load sidebar %}
           {% sidebar_context as context %}
 
@@ -73,7 +73,7 @@
               <a class="theme-text-color form-action" href="{% url 'blog-add' %}">Add new blog</a>
             </div>
           {% endif %}
-        </section>
+        </div>
       {% endblock %}
     </main>
 

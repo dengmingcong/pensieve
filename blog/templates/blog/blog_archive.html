@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="archive-container">
-  <section id="blog-list-year">
+  <div id="blog-list-year">
     {% for year, blog_list in object_dict_sorted_by_year.items %}
       <p class="archive-title">{{ year }}
       <ul class="archive-list">
@@ -11,9 +11,9 @@
         {% endfor %}
       </ul>
     {% endfor %}
-  </section>
+  </div>
 
-  <section id="blog-list-tag">
+  <div id="blog-list-tag">
     {% for tag, blog_list in object_dict_sorted_by_tag.items %}
       <p class="archive-title">{{ tag }}
       <ul class="archive-list">
@@ -22,6 +22,6 @@
         {% endfor %}
       </ul>
     {% endfor %}
-  </section>
+  </div>
 </div>
 {% endblock %}
