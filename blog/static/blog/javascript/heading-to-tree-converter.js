@@ -147,6 +147,6 @@ class HeadingToTreeConverter {
   }
 }
 
-let article_content_section = document.querySelector("#main-content article section");
+let article_content_section = document.querySelector("#article-content");
 let converter = new HeadingToTreeConverter(article_content_section);
 converter.convertHeadingToTree();
