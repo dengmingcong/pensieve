@@ -54,7 +54,7 @@ class Blog(models.Model):
     tags = models.ManyToManyField(Tag)
     title = models.CharField(max_length=50)
     slug = models.CharField(max_length=50, unique_for_date="post_date")
-    content = MartorField()
+    content = models.TextField()
 
     class Meta:
         ordering = ['-post_date']

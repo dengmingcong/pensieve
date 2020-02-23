@@ -8,6 +8,19 @@
   </table>
   <input type="submit" value="Submit">
 </form>
+
+{% load static %}
+<script src="{% static 'blog/codemirror/lib/codemirror.js' %}"></script>
+<link rel="stylesheet" href="{% static 'blog/codemirror/lib/codemirror.css' %}">
+<script src="{% static 'blog/codemirror/mode/markdown/markdown.js' %}"></script>
+
+<script>
+    var myCodeMirror = CodeMirror.fromTextArea(document.querySelector('textarea'), {
+        lineNumbers: true,
+        scrollbarStyle: 'native'
+    });
+    myCodeMirror.setSize(500, 300);
+</script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}
