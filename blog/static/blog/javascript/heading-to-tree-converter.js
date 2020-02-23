@@ -6,6 +6,8 @@ class HeadingToTreeConverter {
     this.walker = document.createTreeWalker(this.root, NodeFilter.SHOW_ALL, null);
     this.containerElementTag = 'section';
     this.levelAttributeName = 'data-heading-level';
+    this.indexAttributeName = 'data-heading-index';
+    this.headingIndexList = [];
   }
 
   /**
@@ -29,7 +31,9 @@ class HeadingToTreeConverter {
         // tag name (lower case, e.g. 'h2') as heading level.
         currentHeadingLevel = currentNode.tagName.toLowerCase();
         parentContainerElement = this.locateParentContainerElement(fragment, currentContainerElement, currentNode);
-        currentContainerElement = this.createAndAppendContainerElement(parentContainerElement, currentNode, this.containerElementTag, this.levelAttributeName, currentHeadingLevel);
+        currentContainerElement = this.createAndAppendContainerElement(
+            parentContainerElement, currentNode, this.containerElementTag, this.levelAttributeName, currentHeadingLevel
+        );
       } else {
         currentContainerElement.appendChild(currentNode);
       }
@@ -81,19 +85,46 @@ class HeadingToTreeConverter {
    * Creates an element as container of current node, the new container element will be appended properly as well.
    * @param parentNode The node which the new created container element will appended to.
    * @param currentNode The node which will be appended to new created container element.
-   * @param attributeValue The value set to self-defined attribute.
+   * @param headingLevelAttributeValue The value set to self-defined attribute.
    * @param tagName Tag name of container element.
-   * @param attributeName The name of self-defined attribute.
+   * @param headingLevelAttributeName The name of self-defined attribute.
    * @returns {HTMLElement}
    */
-  createAndAppendContainerElement(parentNode, currentNode, tagName, attributeName, attributeValue) {
+  createAndAppendContainerElement(parentNode, currentNode, tagName, headingLevelAttributeName, headingLevelAttributeValue) {
     let containerElement = document.createElement(tagName);
 
     // example of container element: <section data-heading-level='h2'></section>
-    containerElement.setAttribute(attributeName, attributeValue);
+    containerElement.setAttribute(headingLevelAttributeName, headingLevelAttributeValue);
+    this.setContainerElementIndex(containerElement, headingLevelAttributeName, this.indexAttributeName);
     containerElement.appendChild(currentNode);
     parentNode.appendChild(containerElement);
+
     return containerElement;
+  }
+
+  /**
+   * Add attribute to identify the heading's location in the tree, index is unique.
+   * @param currentContainerElement
+   * @param headingLevelAttributeName
+   * @param headingIndexAttributeName
+   */
+  setContainerElementIndex(currentContainerElement, headingLevelAttributeName, headingIndexAttributeName) {
+    let currentHeadingLevel = currentContainerElement.getAttribute(headingLevelAttributeName);
+
+    // get 3 given "h3"
+    let currentHeadingDigit = parseInt(/h(\d)/.exec(currentHeadingLevel)[1]);
+    let originLength = this.headingIndexList.length;
+    this.headingIndexList.length = currentHeadingDigit;
+
+    // turn undefined into 0 if only list was expanded.
+    if (currentHeadingDigit > originLength) {
+      this.headingIndexList = [...this.headingIndexList].map((item) => {
+        return (item === undefined) ? 0 : item;
+      });
+    }
+    this.headingIndexList[currentHeadingDigit - 1] += 1;
+    let headingIndexAttributeValue = this.headingIndexList.join(".");
+    currentContainerElement.setAttribute(headingIndexAttributeName, headingIndexAttributeValue);
   }
 
   /**
