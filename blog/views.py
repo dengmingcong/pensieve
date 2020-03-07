@@ -1,7 +1,7 @@
 import collections
+import xml.etree.ElementTree as ET
 from datetime import date
 
-from django import forms
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -10,7 +10,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.dates import ArchiveIndexView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .forms import BlogModelForm
+from .markdown_processor import MarkdownProcessor
 from .models import Blog, BlogAuthor, BlogComment, Tag
 
 
@@ -21,7 +21,6 @@ class Index(ArchiveIndexView):
     Get all blogs ordered by date in descending order.
     In the template, comments detail won't be displayed.
     """
-
     allow_empty = True
     date_field = "post_date"
     model = Blog
@@ -32,7 +31,6 @@ class BlogArchiveView(ArchiveIndexView):
     """
     Archive blogs by dates and tag.
     """
-
     allow_empty = True
     date_field = "post_date"
     model = Blog
@@ -66,7 +64,6 @@ class TagArchiveView(generic.ListView):
 
     The URL should be 'category/<str:tag>/'.
     """
-
     model = Blog
     template_name = "blog/blog_archive_tag.html"
 
@@ -88,7 +85,6 @@ class BlogDetailView(generic.DetailView):
     """
     Class-based view for one particular blog.
     """
-
     context_object_name = "blog"
 
     def get_queryset(self):
@@ -115,8 +111,14 @@ class BlogCreate(PermissionRequiredMixin, CreateView):
     Generic class-based view for adding a new blog.
     """
     model = Blog
-    form_class = BlogModelForm
+    fields = ['title', 'slug', 'content', 'blog_author', 'post_date', 'tags']
     permission_required = 'blog.add_blog'
+
+    def form_valid(self, form):
+        md = MarkdownProcessor(form.instance.content)
+        md.to_xml()
+        form.instance.content_xml = ET.tostring(md.root, encoding='unicode')
+        return super().form_valid(form)
 
 
 class BlogUpdate(PermissionRequiredMixin, UpdateView):
@@ -124,8 +126,14 @@ class BlogUpdate(PermissionRequiredMixin, UpdateView):
     Generic class-based view for updating a particular blog.
     """
     model = Blog
-    form_class = BlogModelForm
+    fields = ['title', 'slug', 'content', 'content_xml', 'blog_author', 'post_date', 'tags']
     permission_required = 'blog.change_blog'
+
+    def form_valid(self, form):
+        md = MarkdownProcessor(form.instance.content)
+        md.to_xml()
+        form.instance.content_xml = ET.tostring(md.root, encoding='unicode')
+        return super().form_valid(form)
 
 
 class BlogDelete(PermissionRequiredMixin, DeleteView):
@@ -141,7 +149,6 @@ class BlogAuthorListView(generic.ListView):
     """
     The generic class-based view for list of all blog-authors.
     """
-
     model = BlogAuthor
 
 
@@ -149,7 +156,6 @@ class BlogAuthorDetailView(generic.DetailView):
     """
     Class-based detail view for one particular blog-author.
     """
-
     model = BlogAuthor
 
 
@@ -157,14 +163,11 @@ class AboutThisBlogView(TemplateView):
     """
     Template view for the template of blog website introduction.
     """
-
     template_name = 'about_this_blog.html'
-
 
 
 class AboutMeView(TemplateView):
     """
     Template view for the template of self-introduction.
     """
-
     template_name = 'about_me.html'
