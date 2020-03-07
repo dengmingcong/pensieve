@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
-from martor.models import MartorField
-
 
 class Tag(models.Model):
     """
@@ -13,7 +11,6 @@ class Tag(models.Model):
 
     One blog can have multi tags, one tag can be used for multi blogs.
     """
-
     tag = models.CharField(max_length=20, help_text="Define a tag.")
 
     def __str__(self):
@@ -27,8 +24,7 @@ class BlogAuthor(models.Model):
     """
     Model representing a blog author.
     """
-
-    name = models.ForeignKey(User,on_delete=models.PROTECT) 
+    name = models.ForeignKey(User,on_delete=models.PROTECT)
     biography = models.TextField()
 
     def __str__(self):
@@ -48,13 +44,13 @@ class Blog(models.Model):
     """
     Model representing a blog.
     """
-
     blog_author = models.ForeignKey(BlogAuthor, on_delete=models.PROTECT, default=1)
     post_date = models.DateField(default=date.today)
     tags = models.ManyToManyField(Tag)
     title = models.CharField(max_length=50)
     slug = models.CharField(max_length=50, unique_for_date="post_date")
-    content = models.TextField()
+    content = models.TextField(blank=True)
+    content_xml = models.TextField(blank=True)
 
     class Meta:
         ordering = ['-post_date']
@@ -84,7 +80,6 @@ class BlogComment(models.Model):
     """
     Model representing a comment against a blog post.
     """
-
     comment_author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     post_date = models.DateTimeField(auto_now_add=True)
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
