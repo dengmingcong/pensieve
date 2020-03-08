@@ -16,7 +16,7 @@
       <p id="slogan" class="theme-text-color header">我刚洗了个热水澡，生活好像又有了希望</p>
     </header>
     
-    <nav class="main-nav">
+    <nav class="menu">
       <ul>
         <li><a href="{% url 'index' %}" {% if request.path == "/blog/" %}class="active"{% endif %}>Home</a>
         <li><a href="{% url 'archive' %}" {% if request.path == "/blog/archive/" %}class="active"{% endif %}>Archive</a>
@@ -30,41 +30,41 @@
     </nav>
     
     <main>
-      <div id="main-content">
+      <div id="article-container">
         {% block content %}{% endblock %}
       </div>
 
       {% block sidebar %}
-        <div id="sidebar">
-          {% load sidebar %}
-          {% sidebar_context as context %}
+      <div id="sidebar">
+        {% load sidebar %}
+        {% sidebar_context as context %}
 
-          {% if context.blog_list %}
-            <div class="category">
-              <p>Category</p>
-              <ul>
-                {% for category in context.tag_list %}
-                <li><a class="theme-text-color archive" href="{% url 'blog-tag-archive' category.tag %}">{{ category.tag }}</a> 
-                {% endfor %}
-              </ul>
-            </div>
-
-            <div class="date">
-              <p>Date</p>
-              <ul>
-                {% for date in context.date_list %}
-                <li><a class="theme-text-color archive" href="{% url 'blog-year-archive' date.year %}">{{ date|date:"Y" }}</a>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
-
-          {% if perms.blog.add_blog %}
-            <div class="blog-add">
-              <a class="theme-text-color form-action" href="{% url 'blog-add' %}">Add new blog</a>
-            </div>
-          {% endif %}
+        {% if context.blog_list %}
+        <div class="category">
+          <p>Category</p>
+          <ul>
+            {% for category in context.tag_list %}
+            <li><a class="theme-text-color archive" href="{% url 'blog-tag-archive' category.tag %}">{{ category.tag }}</a>
+            {% endfor %}
+          </ul>
         </div>
+
+        <div class="date">
+          <p>Date</p>
+          <ul>
+            {% for date in context.date_list %}
+            <li><a class="theme-text-color archive" href="{% url 'blog-year-archive' date.year %}">{{ date|date:"Y" }}</a>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% if perms.blog.add_blog %}
+          <div class="blog-add">
+            <a class="theme-text-color form-action" href="{% url 'blog-add' %}">Add new blog</a>
+          </div>
+        {% endif %}
+      </div>
       {% endblock %}
     </main>
 

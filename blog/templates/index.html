@@ -4,19 +4,20 @@
   {% if latest %}
     {% for blog in latest %}
     <article>
-      <h1><a class="theme-text-color blog-title" href="{{ blog.get_absolute_url }}"><strong>{{ blog.title }}</strong></a></h1>
-
-      {% if perms.blog.change_blog or perms.blog.delete_blog %}
-        <div class="blog-form">
+      <h1>
+        <a class="theme-text-color blog-title" href="{{ blog.get_absolute_url }}"><strong>{{ blog.title }}</strong></a>
+        {% if perms.blog.change_blog or perms.blog.delete_blog %}
+        <span class="blog-title-buttons">
           {% if perms.blog.change_blog %}
-            <a class="theme-text-color form-action" href="{% url 'blog-update' blog.post_date.year blog.post_date.month blog.post_date.day blog.slug %}">Edit</a>
+          <a class="theme-text-color form-action" href="{% url 'blog-update' blog.post_date.year blog.post_date.month blog.post_date.day blog.slug %}">Edit</a>
           {% endif %}
 
           {% if perms.blog.delete_blog %}
-            <a class="theme-text-color form-action" href="{% url 'blog-delete' blog.post_date.year blog.post_date.month blog.post_date.day blog.slug %}">Delete</a>
+          <a class="theme-text-color form-action" href="{% url 'blog-delete' blog.post_date.year blog.post_date.month blog.post_date.day blog.slug %}">Delete</a>
           {% endif %}
-        </div>
-      {% endif %}
+        </span>
+        {% endif %}
+      </h1>
 
       <div class="info">
         <span class="date">{{ blog.post_date|date:"Y.m.d" }}</span>
