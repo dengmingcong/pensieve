@@ -96,12 +96,12 @@ header {
 
 /* Main Navigation */
 
-.main-nav {
+.menu {
   box-shadow: 1px 0px 12px #76797c;
   position: relative;
 }
 
-.main-nav ul {
+.menu ul {
   align-items: left;
   display: flex; 
   height: 2.1em;
@@ -111,13 +111,13 @@ header {
   padding: 0;
 }
 
-.main-nav li {
+.menu li {
   flex: initial;
   height: 100%;
   text-align: center;
 }
 
-.main-nav li a {
+.menu li a {
   color: black;
   display: block;
   font-size: 12px;
@@ -125,23 +125,23 @@ header {
   padding: 0 30px;
 }
 
-.main-nav li a:not(.active):hover {
+.menu li a:not(.active):hover {
   background: #f4f5f7;
 }
 
-.main-nav .active {
+.menu .active {
   background: #e0e0e2;
 }
 
-.main-nav li:last-child {
+.menu li:last-child {
   margin-right: 0;
 }
 
-.main-nav li a {
+.menu li a {
   text-decoration: none;
 }
 
-.main-nav form {
+.menu form {
   top: 5px;
   position: absolute;
   right: 30px;
@@ -157,9 +157,9 @@ main {
   font-size: 13px;
 }
 
-/* Main > content */
+/* Main > article-container */
 
-#main-content {
+#article-container {
   flex: 2.4;
   padding: 40px 30px;
 }
@@ -180,11 +180,11 @@ article h1 {
 
 /* Main > content > article > form */
 
-article .blog-form {
+article .blog-title-buttons {
   font-size: 12px;
   position: absolute;
   right: 0;
-  top: 5px;
+  top: 12px;
 }
 
 /* Main > content > article > info */
