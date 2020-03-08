@@ -6,7 +6,7 @@ class HeadingToTreeConverter {
     this.walker = document.createTreeWalker(this.root, NodeFilter.SHOW_ALL, null);
     this.containerElementTag = 'section';
     this.levelAttributeName = 'data-heading-level';
-    this.indexAttributeName = 'data-heading-index';
+    this.indexAttributeName = 'data-seqnum';
     this.headingIndexList = [];
   }
 
