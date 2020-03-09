@@ -46,6 +46,10 @@
   {% endif %}
   -->
 </aside>
+
+{% if perms.blog.change_blog %}
 {% load static %}
 <script type="text/javascript" src="{% static 'blog/javascript/heading-to-tree-converter.js' %}"></script>
+<script type="text/javascript" src="{% static 'blog/javascript/add-edit-button-for-headers.js' %}"></script>
+{% endif %}
 {% endblock %}
