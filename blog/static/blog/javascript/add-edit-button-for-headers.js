@@ -27,7 +27,7 @@ class SectionProcessor {
     let edit_url = '';
 
     while (node !== null) {
-      edit_url = location.pathname + node.getAttribute(this.seqNumAttribute) + "/edit";
+      edit_url = location.pathname + node.getAttribute(this.seqNumAttribute) + "/update/";
       this.appendEditButton(node.firstChild, edit_url);
       node = walker.nextNode();
     }
