@@ -22,6 +22,14 @@ class MarkdownProcessor(object):
         self.id_list = []
 
     def to_xml(self):
+        """
+        Turns markdown document to xml.
+
+        For instance, string "## h2" would output:
+            <root>
+                <h id="0.1" level="2">## h2</h>
+            </root>.
+        """
         lines = self.doc.split('\r\n')
         sub_tree_root = self.root
         parent = self.root
@@ -116,6 +124,7 @@ class MarkdownProcessor(object):
 
 
 if __name__ == '__main__':
-    md = MarkdownProcessor('/tmp/test-python/a')
+    # md = MarkdownProcessor('/tmp/test-python/a')
+    md = MarkdownProcessor('## h2')
     md.to_xml()
     ET.dump(md.root)
