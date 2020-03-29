@@ -1,17 +1,22 @@
 import collections
+import logging
 import xml.etree.ElementTree as ET
 from datetime import date
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 from django.views.generic.base import TemplateView
 from django.views.generic.dates import ArchiveIndexView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .markdown_processor import MarkdownProcessor
 from .models import Blog, BlogAuthor, BlogComment, Tag
+
+logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=logging.INFO)
+logger = logging.getLogger('django')
 
 
 class Index(ArchiveIndexView):
@@ -134,6 +139,65 @@ class BlogUpdate(PermissionRequiredMixin, UpdateView):
         md.to_xml()
         form.instance.content_xml = ET.tostring(md.root, encoding='unicode')
         return super().form_valid(form)
+
+
+class BlogSectionUpdate(PermissionRequiredMixin, View):
+    """
+    Class-based view for updating only sections.
+    """
+    permission_required = 'blog.change_blog'
+
+    def get(self, request, *args, **kwargs):
+        post_date = "-".join(map(str, [kwargs['year'], kwargs['month'], kwargs['day']]))
+        seqnum = kwargs["seqnum"]
+        logger.debug("seqnum: {}".format(seqnum))
+
+        blog = Blog.objects.get(post_date=post_date, slug=kwargs['slug'])
+        logger.debug("blog title: {}".format(blog.title))
+
+        # Parses an XML section from string.
+        root = ET.fromstring(blog.content_xml)
+        logger.debug("root: {}".format(ET.tostring(root, encoding='unicode')))
+
+        section = root.find(".//*[@id='{}']".format(seqnum))
+        logger.debug("section: {}".format(ET.tostring(section, encoding='unicode')))
+
+        return JsonResponse(
+            {'content_xml': self.extract_and_join_element_text(section, "\n")},
+            json_dumps_params={'ensure_ascii': False}
+        )
+
+    def extract_and_join_element_text(self, element, sep):
+        """
+        Join inner text of given element and all of its children.
+
+        :param element: An instance of xml Element.
+        :param sep: String as separator.
+        :return: The concatenated string.
+        """
+        logger.debug(sep.join(list(self.itertext(element))))
+        return sep.join(list(self.itertext(element)))
+
+    def itertext(self, element):
+        """Create text iterator.
+
+        The iterator loops over the element and all subelements in document
+        order, returning all inner text.
+
+        """
+        tag = element.tag
+        if not isinstance(tag, str) and tag is not None:
+            return
+        t = element.text
+        if t:
+            yield t
+        else:
+            yield ""
+        for sub_element in element:
+            yield from self.itertext(sub_element)
+            t = sub_element.tail
+            if t:
+                yield t
 
 
 class BlogDelete(PermissionRequiredMixin, DeleteView):
