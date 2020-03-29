@@ -13,7 +13,8 @@ urlpatterns = [
     # Archive by tag
     path('category/<str:tag>/', views.TagArchiveView.as_view(), name='blog-tag-archive'),
     # Archive by year
-    path('<int:year>/', YearArchiveView.as_view(model=Blog, date_field="post_date", make_object_list=True), name="blog-year-archive"),
+    path('<int:year>/', YearArchiveView.as_view(model=Blog, date_field="post_date", make_object_list=True),
+         name="blog-year-archive"),
     # Blog detail specified by date and slug
     path('<int:year>/<int:month>/<int:day>/<slug:slug>/', views.BlogDetailView.as_view(), name='blog-detail'),
     # Deprecated
@@ -28,4 +29,6 @@ urlpatterns += [
     path('add/', views.BlogCreate.as_view(), name='blog-add'), 
     path('<int:year>/<int:month>/<int:day>/<slug:slug>/update/', views.BlogUpdate.as_view(), name='blog-update'),
     path('<int:year>/<int:month>/<int:day>/<slug:slug>/delete/', views.BlogDelete.as_view(), name='blog-delete'),
+    path('<int:year>/<int:month>/<int:day>/<slug:slug>/<seqnum>/update/', views.BlogSectionUpdate.as_view(),
+         name='blog-section-update'),
 ]
