@@ -116,7 +116,7 @@ class HeadingToTreeConverter {
     let originLength = this.headingIndexList.length;
     this.headingIndexList.length = currentHeadingDigit;
 
-    // turn undefined into 0 if only list was expanded.
+    // Find items undefined and assign them 0 when the list 'headingIndexList' was expanded.
     if (currentHeadingDigit > originLength) {
       this.headingIndexList = [...this.headingIndexList].map((item) => {
         return (item === undefined) ? 0 : item;
@@ -181,3 +181,5 @@ class HeadingToTreeConverter {
 let article_content_section = document.querySelector("#article-content");
 let converter = new HeadingToTreeConverter(article_content_section);
 converter.convertHeadingToTree();
+
+export { HeadingToTreeConverter };
