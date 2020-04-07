@@ -1,6 +1,11 @@
 "use strict";
 
 class SectionProcessor {
+  /**
+   * Initializes an instance.
+   * @param root
+   * @param topEditableHeaderLevel
+   */
   constructor(root, topEditableHeaderLevel) {
     this.root = root;
     this.topEditableHeaderLevel = topEditableHeaderLevel;
@@ -72,7 +77,8 @@ class SectionProcessor {
 }
 
 
-
 let root = document.querySelector("#article-content");
 let sp = new SectionProcessor(root, 3);
 sp.addEditButton();
+
+export { SectionProcessor };
