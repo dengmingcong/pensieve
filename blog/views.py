@@ -11,6 +11,7 @@ from django.views import generic, View
 from django.views.generic.base import TemplateView
 from django.views.generic.dates import ArchiveIndexView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+import markdown
 
 from .markdown_processor import MarkdownProcessor
 from .models import Blog, BlogAuthor, BlogComment, Tag
@@ -148,24 +149,103 @@ class BlogSectionUpdate(PermissionRequiredMixin, View):
     permission_required = 'blog.change_blog'
 
     def get(self, request, *args, **kwargs):
-        post_date = "-".join(map(str, [kwargs['year'], kwargs['month'], kwargs['day']]))
+        blog = self.get_blog(**kwargs)
         seqnum = kwargs["seqnum"]
         logger.debug("seqnum: {}".format(seqnum))
+        root, section = self.parse_xml(blog, seqnum)
 
+        return JsonResponse(
+            {
+                'section_text': self.extract_and_join_element_text(section, "\n")
+            },
+            json_dumps_params={'ensure_ascii': False}
+        )
+
+    def post(self, request, *args, **kwargs):
+        blog = self.get_blog(**kwargs)
+        seqnum = kwargs["seqnum"]
+        logger.debug("seqnum: {}".format(seqnum))
+        root, old_section = self.parse_xml(blog, seqnum)
+
+        # Convert plain text to XML tree.
+        md = MarkdownProcessor(request.POST["section-text"])
+        last_id_list = list(map(int, seqnum.split(".")))
+        last_id_list[-1] = last_id_list[-1] - 1 if last_id_list[-1] > 0 else last_id_list[-1]
+        md.id_list = last_id_list
+        md.to_xml()
+
+        # Update section element within XML tree via replacing old section element.
+        new_section = md.root.find("h")
+        logger.debug("Update element '{}' to '{}'".format(
+            ET.tostring(old_section, encoding='unicode'),
+            ET.tostring(new_section, encoding='unicode'))
+        )
+        parent_map = dict((c, p) for p in root.iter() for c in p)
+        parent = parent_map[old_section]
+        logger.debug("Parent element before replacing child: {}".format(ET.tostring(parent, encoding='unicode')))
+        self.replace_child(parent, new_section, old_section)
+        logger.debug("XML root after replacing child: {}".format(ET.tostring(md.root, encoding='unicode')))
+
+        # Concatenate inner text of XML elements and update blog's fields 'content' and 'content_xml'.
+        blog.content = self.extract_and_join_element_text(root, "\n")
+        logger.debug("Update blog's content field to: {}".format(blog.content))
+        blog.content_xml = ET.tostring(root, encoding='unicode')
+        logger.debug("Update blog's content_xml field to: {}".format(blog.content_xml))
+        blog.save()
+
+        # Return HTML string transformed by markdown.
+        return JsonResponse(
+            {
+                'section_html': markdown.markdown(request.POST["section-text"])
+            },
+            json_dumps_params={'ensure_ascii': False}
+        )
+
+    @staticmethod
+    def replace_child(parent, new, old):
+        """
+        Replaces a sub-element.
+
+        :param parent: Parent element whose child would be replaced
+        :param new: New XML element
+        :param old: Old XML element to be replaced
+        :return: None
+        """
+        parent.insert(list(parent).index(old), new)
+        parent.remove(old)
+
+    @staticmethod
+    def get_blog(**kwargs):
+        """
+        Returns blog object identified by post date and slug.
+
+        :param kwargs:
+        :return: instance of Blog model
+        """
+        post_date = "-".join(map(str, [kwargs['year'], kwargs['month'], kwargs['day']]))
+
+        # Find blog by post date and slug.
         blog = Blog.objects.get(post_date=post_date, slug=kwargs['slug'])
         logger.debug("blog title: {}".format(blog.title))
 
+        return blog
+
+    @staticmethod
+    def parse_xml(blog, seqnum):
+        """
+        Parses from blog's field content_xml.
+
+        :param blog: An instance of Blog model
+        :param seqnum: specific sequence number
+        :return: a tuple of root element and specific section
+        """
         # Parses an XML section from string.
         root = ET.fromstring(blog.content_xml)
         logger.debug("root: {}".format(ET.tostring(root, encoding='unicode')))
-
         section = root.find(".//*[@id='{}']".format(seqnum))
         logger.debug("section: {}".format(ET.tostring(section, encoding='unicode')))
 
-        return JsonResponse(
-            {'content_xml': self.extract_and_join_element_text(section, "\n")},
-            json_dumps_params={'ensure_ascii': False}
-        )
+        return root, section
 
     def extract_and_join_element_text(self, element, sep):
         """
@@ -183,7 +263,6 @@ class BlogSectionUpdate(PermissionRequiredMixin, View):
 
         The iterator loops over the element and all subelements in document
         order, returning all inner text.
-
         """
         tag = element.tag
         if not isinstance(tag, str) and tag is not None:
