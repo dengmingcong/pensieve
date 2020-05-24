@@ -32,16 +32,7 @@
 <script src="{% static 'blog/codemirror/mode/gfm/gfm.js' %}"></script>
 <link rel="stylesheet" href="{% static 'blog/css/editor.css' %}">
 
-<script>
-    var myCodeMirror = CodeMirror.fromTextArea(document.querySelector('textarea'), {
-        lineNumbers: true,
-        mode: "markdown",
-        scrollbarStyle: 'native',
-        lineWrapping: true
-    });
-    myCodeMirror.setSize("100%", 300);
-</script>
-<script src="{% static 'blog/javascript/active-tab.js' %}"></script>
+<script data-main="{% static 'blog/javascript/active-tab.js' %}" src="{% static 'blog/javascript/require.js' %}"></script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}
