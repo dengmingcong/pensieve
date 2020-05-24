@@ -31,4 +31,5 @@ urlpatterns += [
     path('<int:year>/<int:month>/<int:day>/<slug:slug>/delete/', views.BlogDelete.as_view(), name='blog-delete'),
     path('<int:year>/<int:month>/<int:day>/<slug:slug>/<seqnum>/update/', views.BlogSectionUpdate.as_view(),
          name='blog-section-update'),
+    path('preview-markdown', views.PreviewMarkdownView.as_view(), name='preview-markdown'),
 ]
