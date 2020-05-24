@@ -1,0 +1,47 @@
+.file {
+    position: relative;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.file-header {
+    padding: 5px 10px;
+    background-color: #fafbfc;
+    border-bottom: 1px solid #e1e4e8;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.container-preview .tabnav-tabs {
+    margin: -6px 0 -6px -11px;
+}
+
+.container-preview .tabnav-tabs .tabnav-tab {
+    padding: 12px 15px;
+}
+
+.tabnav-tab {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #586069;
+    text-decoration: none;
+    background-color: initial;
+    border: 1px solid transparent;
+    border-bottom: 0;
+}
+
+.tabnav-tab.selected {
+    border-top-left-radius: 3px;
+    font-weight: 600;
+    color: #24292e;
+    background-color: #fff;
+    border-color: #d1d5da;
+}
+
+.hidden {
+    display: none;
+}
