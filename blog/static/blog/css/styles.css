@@ -7,11 +7,11 @@ html {
 
 body {
   background: white;
-  box-shadow: 0px 0px 20px 2px #676a6d,
-              0px 0px 90px 10px #EBE8F2;
+  box-shadow: 0 0 20px 2px #676a6d,
+              0 0 90px 10px #EBE8F2;
   display: flex;
   flex-flow: column;
-  font-family: Verdana,"BitStream vera Sans",Tahoma,Helvetica,Sans-serif;
+  font-family: Verdana, "BitStream vera Sans", Tahoma, Helvetica, Sans-serif, serif;
   margin: 30px auto;
   max-width: 936px;
   min-height: 100%;
@@ -97,12 +97,12 @@ header {
 /* Main Navigation */
 
 .menu {
-  box-shadow: 1px 0px 12px #76797c;
+  box-shadow: 1px 0 12px #76797c;
   position: relative;
 }
 
 .menu ul {
-  align-items: left;
+  align-items: stretch;
   display: flex; 
   height: 2.1em;
   justify-content: left;
@@ -176,6 +176,27 @@ article {
 article h1 {
   border-bottom: 1px solid #ccc;
   margin: 0;
+}
+
+/* Main > content > article > edit-button */
+
+.edit-section {
+  font-size: 11px;
+  font-family: SourceSansPro, serif;
+  font-weight: lighter;
+}
+
+.edit-section a {
+  text-decoration: none;
+}
+
+.edit-section-bracket {
+  margin: 2px;
+  color: #333333;
+}
+
+.edit-section:first-child {
+  margin-left: 6px;
 }
 
 /* Main > content > article > form */
