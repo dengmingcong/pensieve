@@ -3,9 +3,25 @@
 {% block content %}
 <form action="" method="post">
   {% csrf_token %}
-  <table>
-    {{ form.as_table }}
-  </table>
+  <div class="file container-preview">
+    <div class="file-header">
+      <div class="tabnav-tabs">
+        <button type="button" class="tabnav-tab selected" data-tab="show-code">
+          Edit file
+        </button>
+        <button type="button" class="tabnav-tab" data-tab="preview">
+          Preview changes
+        </button>
+      </div>
+    </div>
+    <div class="commit-create position-relative">
+      {{ form.content }}
+    </div>
+    <div class="loading-preview-msg hidden">
+      <p class="preview-msg">Loading preview...</p>
+    </div>
+    <div class="commit-preview hidden"></div>
+  </div>
   <input type="submit" value="Submit">
 </form>
 
@@ -13,14 +29,19 @@
 <script src="{% static 'blog/codemirror/lib/codemirror.js' %}"></script>
 <link rel="stylesheet" href="{% static 'blog/codemirror/lib/codemirror.css' %}">
 <script src="{% static 'blog/codemirror/mode/markdown/markdown.js' %}"></script>
+<script src="{% static 'blog/codemirror/mode/gfm/gfm.js' %}"></script>
+<link rel="stylesheet" href="{% static 'blog/css/editor.css' %}">
 
 <script>
     var myCodeMirror = CodeMirror.fromTextArea(document.querySelector('textarea'), {
         lineNumbers: true,
-        scrollbarStyle: 'native'
+        mode: "markdown",
+        scrollbarStyle: 'native',
+        lineWrapping: true
     });
-    myCodeMirror.setSize(500, 300);
+    myCodeMirror.setSize("100%", 300);
 </script>
+<script src="{% static 'blog/javascript/active-tab.js' %}"></script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}
