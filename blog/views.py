@@ -132,7 +132,7 @@ class BlogUpdate(PermissionRequiredMixin, UpdateView):
     Generic class-based view for updating a particular blog.
     """
     model = Blog
-    fields = ['title', 'slug', 'content', 'content_xml', 'blog_author', 'post_date', 'tags']
+    fields = ['content']
     permission_required = 'blog.change_blog'
 
     def form_valid(self, form):
@@ -140,6 +140,20 @@ class BlogUpdate(PermissionRequiredMixin, UpdateView):
         md.to_xml()
         form.instance.content_xml = ET.tostring(md.root, encoding='unicode')
         return super().form_valid(form)
+
+
+class PreviewMarkdownView(View):
+    """
+    Converts markdown to HTML.
+    """
+    def post(self, request, *args, **kwargs):
+        # Return HTML string transformed from markdown.
+        return JsonResponse(
+            {
+                'html': markdown.markdown(request.POST["origin-markdown"])
+            },
+            json_dumps_params={'ensure_ascii': False}
+        )
 
 
 class BlogSectionUpdate(PermissionRequiredMixin, View):
