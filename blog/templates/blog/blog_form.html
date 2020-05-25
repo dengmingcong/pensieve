@@ -3,36 +3,14 @@
 {% block content %}
 <form action="" method="post">
   {% csrf_token %}
-  <div class="file container-preview">
-    <div class="file-header">
-      <div class="tabnav-tabs">
-        <button type="button" class="tabnav-tab selected" data-tab="show-code">
-          Edit file
-        </button>
-        <button type="button" class="tabnav-tab" data-tab="preview">
-          Preview changes
-        </button>
-      </div>
-    </div>
-    <div class="commit-create position-relative">
-      {{ form.content }}
-    </div>
-    <div class="loading-preview-msg hidden">
-      <p class="preview-msg">Loading preview...</p>
-    </div>
-    <div class="commit-preview hidden"></div>
-  </div>
+  {{ form.content }}
   <input type="submit" value="Submit">
 </form>
 
 {% load static %}
-<script src="{% static 'blog/codemirror/lib/codemirror.js' %}"></script>
 <link rel="stylesheet" href="{% static 'blog/codemirror/lib/codemirror.css' %}">
-<script src="{% static 'blog/codemirror/mode/markdown/markdown.js' %}"></script>
-<script src="{% static 'blog/codemirror/mode/gfm/gfm.js' %}"></script>
 <link rel="stylesheet" href="{% static 'blog/css/editor.css' %}">
-
-<script data-main="{% static 'blog/javascript/active-tab.js' %}" src="{% static 'blog/javascript/require.js' %}"></script>
+<script data-main="{% static 'blog/javascript/preview-codemirror.js' %}" src="{% static 'blog/javascript/require.js' %}"></script>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}
